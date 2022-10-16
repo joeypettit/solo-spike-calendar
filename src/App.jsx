@@ -24,9 +24,13 @@ function App() {
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // GET REQUEST
   function getEvents(){
-    let response = axios.get('/calendar/');
-    console.log('GET request returns', response.data);
-    setAllEvents(response.data);
+    axios({
+      method: 'GET',
+      url:'/calendar/'
+      }).then((response)=>{
+        console.log('GET request returns', response.data);
+        setAllEvents(response.data);
+      }).catch((error)=> console.log('error with GET', error));
   }
   
 
@@ -38,6 +42,8 @@ function App() {
   // this function will get the first day the calendar should display for the displayed month, and
   // create an array of date objects for each day. (unless, sunday === the first day of month)
   function createCalendar(){
+      // create an array of all lesson objects in this month view
+
       // get the first day of displayed month
       const firstOfMonth = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1);
       // get Sunday before the 1st of the month, (ex. for October 2022 => Sunday Sept 25)
@@ -54,18 +60,27 @@ function App() {
               break;
             } else{
               const date = new Date(SundayBeforeTheFirst);
-              datesInView.push({ date, events: 'add events here' });
+              datesInView.push({ date });
+
+            
               SundayBeforeTheFirst.setDate(SundayBeforeTheFirst.getDate() + 1);
+
+
+
             }
-        
       }
       console.log('dates in view  array', datesInView);
       // set array to allDates in state
       setAllDates(datesInView);
       }
-  
 
-  useEffect((()=>createCalendar(),()=>getEvents()),[ displayDate]);
+
+      
+  
+      
+
+  useEffect((()=>createCalendar()),[displayDate]);
+  useEffect(()=>()=>getEvents(),[]);
 
   return (
     <div className="App">
@@ -82,7 +97,7 @@ function App() {
           <div className='dayname'>Thursday</div>
           <div className='dayname'>Friday</div>
           <div className='dayname'>Saturday</div>
-          {allDates. map((date, index)=>{
+          {allDates.map((date, index)=>{
             return(
               <div 
                 key={index} 
@@ -95,7 +110,9 @@ function App() {
                   {date.date.getDate()}
                 </div>
                 <div>
-                  <p>{date.events}</p>
+                  <p>{allEvents.map((event)=>{
+                    
+                  })}</p>
                 </div>
               </div>
             )
