@@ -12,7 +12,7 @@ function App() {
   const [displayDate, setDisplayDate] = useState(todaysDate.setDate(14));
 
   
-  const startingDate = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1) // get first of this month
+  const startingDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1) // get first of this month
 
   // set startingDate to the Monday before the 1st of the month, (ex. startingDate of October 2022 is Monday Sept 26)
   startingDate.setDate(startingDate.getDate() - (startingDate.getDay() - 1))

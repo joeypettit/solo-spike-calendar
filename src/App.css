@@ -39,14 +39,27 @@
 
 .cell-thismonth{
   background-color: #61dafb;
+  width: 116px;
 }
 
 .cell-othermonth{
   background-color: lightslategray;
+  width: 116px;
 }
 
 .cell-thismonth.currentday{
   background-color: blue;
+  width: 116px;
+}
+
+.dayname{
+  width: 116px;
 }
 
 
+#cal-holder{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width:817px;
+}
