@@ -10,10 +10,11 @@ app.use(express.static('build'));
 
 
 app.get('/calendar/', (req, res)=>{
-    
-
-
-
+    let queryText = `SELECT * FROM "lessons-too"`
+    pool.query(queryText)
+    .then((response) =>{
+        res.send(response.rows)
+    }).catch((error)=>console.log("error with GET", error));
 })
 
 

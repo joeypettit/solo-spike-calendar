@@ -1,6 +1,7 @@
 import './App.css';
 import {useState, useEffect} from 'react';
 import CalNav from './CalNav';
+import axios from 'axios';
 
 function App() {
 
@@ -18,7 +19,19 @@ function App() {
   // array of all date objects in current month view => {date: ... , events: ... }
   const [allDates, setAllDates] = useState([]);
 
+  const [allEvents, setAllEvents] = useState([]);
+
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // GET REQUEST
+  function getEvents(){
+    let response = axios.get('/calendar/');
+    console.log('GET request returns', response.data);
+    setAllEvents(response.data);
+  }
+  
+
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -52,8 +65,7 @@ function App() {
       }
   
 
-
-  useEffect(()=>createCalendar(),[ displayDate]);
+  useEffect((()=>createCalendar(),()=>getEvents()),[ displayDate]);
 
   return (
     <div className="App">
