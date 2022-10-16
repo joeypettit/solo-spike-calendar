@@ -22,9 +22,6 @@ function CalNav({displayDate, setDisplayDate}){
         let newYear = new Date(displayDate);
         setThisYear(newYear.getFullYear());
 
-
-        
-    
     }
 
     useEffect(()=>displayMonthYear());
