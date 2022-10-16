@@ -7,11 +7,13 @@ function App() {
   //~~~~~~~~~~~~~~~ STATE AND VARIABLES~~~~~~~~~~~~~~~~~~~~
   // get today's date
   const todaysDate = new Date();
+  console.log('todays date is', todaysDate);
+  console.log('todays date getDate', todaysDate.getDate());
 
   // display date is used to change months, it is set to a date in the middle of the month
   // so that when it is used to increment the month, it is on a day that every month has (not the 31st for example)
   // displayDate and setDisplayDate is passed to CalNav as a prop
-  const [displayDate, setDisplayDate] = useState(new Date(todaysDate.setDate(15)));
+  const [displayDate, setDisplayDate] = useState(new Date());
 
   // array of all date objects in current month view => {date: ... , events: ... }
   const [allDates, setAllDates] = useState([]);
@@ -74,7 +76,7 @@ function App() {
                 key={index} 
                 className={`cell-${date.date.getMonth()=== displayDate.getMonth() 
                             ?`thismonth`:`othermonth`}${
-                              date.date.getDate() == todaysDate.getDate() && date.date.getMonth() === todaysDate.getMonth() && date.date.getFullYear() === todaysDate.getFullYear()? 
+                              date.date.getDate() === todaysDate.getDate() && date.date.getMonth() === todaysDate.getMonth() && date.date.getFullYear() === todaysDate.getFullYear()? 
                               " currentday" : ""}`}
                 >
                 <div className="date">

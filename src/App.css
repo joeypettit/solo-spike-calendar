@@ -66,3 +66,9 @@
   flex-wrap: wrap;
   width:817px;
 }
+
+.cal-nav-bar{
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
