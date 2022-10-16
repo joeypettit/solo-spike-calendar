@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.cell-thismonth{
+  background-color: #61dafb;
+}
+
+.cell-othermonth{
+  background-color: lightslategray;
+}
+
+.cell-thismonth.currentday{
+  background-color: blue;
+}
+
+

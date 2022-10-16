@@ -1,9 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
  
   const todaysDate = new Date();  // get today's date
+  console.log('todays date', todaysDate);
   const startingDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1) // get first of this month
   console.log('first of the month', startingDate);
 
@@ -30,8 +30,11 @@ function App() {
             return(
               <div 
                 key={index} 
-                className="cal-cell"
-              >
+                className={`cell-${date.date.getMonth()===todaysDate.getMonth() 
+                            ?`thismonth`:`othermonth`}${
+                              date.date.getDate() == todaysDate.getDate() ? 
+                              " currentday" : ""}`}
+                >
                 <div className="date">
                   {date.date.getDate()}
                 </div>
