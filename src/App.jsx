@@ -71,19 +71,19 @@ function App() {
       // get the first day of displayed month
       const firstOfMonth = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1);
       // get Sunday before the 1st of the month, (ex. for October 2022 => Sunday Sept 25)
-      const SundayBeforeTheFirst = new Date(firstOfMonth.setDate(firstOfMonth.getDate() - (firstOfMonth.getDay())));
+      const firstDayOnCal = new Date(firstOfMonth.setDate(firstOfMonth.getDate() - (firstOfMonth.getDay())));
 
       // create array of date objects for each day of this months view (including full weeks on either side)
       const datesInView = [];
       for (let i = 0; i < (6 * 7); i++) {
         // conditional checks to see if last sunday in month view belongs to current month,
         // if it does not, then don't render first week of next month (with no dates from current month)
-        if(SundayBeforeTheFirst.getDay()===0 
-            && SundayBeforeTheFirst.getMonth() !== displayDate.getMonth() 
-            && SundayBeforeTheFirst.getTime()>displayDate.getTime()){
+        if(firstDayOnCal.getDay()===0 
+            && firstDayOnCal.getMonth() !== displayDate.getMonth() 
+            && firstDayOnCal.getTime()>displayDate.getTime()){
               break;
             } else{
-              const date = new Date(SundayBeforeTheFirst);
+              const date = new Date(firstDayOnCal);
               for(let i = 0; i < thisViewsEvents.length; i++){
                 // if date in lessons array is the same as this day, push events to the dates object
                 if((new Date(thisViewsEvents[i].starttime)).getDate() === date.getDate()){
@@ -94,7 +94,7 @@ function App() {
               // if day had no lessons, push it to datesInView with just date key
               datesInView.push({ date, events: [{starttime: 'startTime', endtime: 'endTime'}] });
               // increment the date by one before restarting loop
-              SundayBeforeTheFirst.setDate(SundayBeforeTheFirst.getDate() + 1);
+              firstDayOnCal.setDate(firstDayOnCal.getDate() + 1);
             }
       }
       console.log('dates in view  array', datesInView);

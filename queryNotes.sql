@@ -28,3 +28,5 @@ create temporary table test(
     id int, 
     ts timestamp without time zone default (now() at time zone 'utc') --utc must be lowercase, single quotes
 );
+
+WTF: console.log((new Date(thisViewsEvents[i].starttime)).getDate());
