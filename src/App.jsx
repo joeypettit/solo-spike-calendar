@@ -22,8 +22,9 @@ function App() {
   const [allEvents, setAllEvents] = useState([]);
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   // GET REQUEST
-  function getEvents(){
+  function getLessons(){
     axios({
       method: 'GET',
       url:'/calendar/'
@@ -42,8 +43,31 @@ function App() {
   // this function will get the first day the calendar should display for the displayed month, and
   // create an array of date objects for each day. (unless, sunday === the first day of month)
   function createCalendar(){
+
+    //~~~~~~~~~~ CREATE ARRAY OF LESSONS FOR THIS MONTH'S VIEW ~~~~~~~~~~
+      console.log('IN CALENDAR', allEvents);
       // create an array of all lesson objects in this month view
 
+      let thisViewsEvents = []; //array of lesson objects
+
+      // if allEvents is not empty
+      if(allEvents !==[]){
+        for(let i=0; i<allEvents.length; i++){
+          let thisItem = allEvents[i];
+          console.log('this item is', thisItem);
+          console.log('new Date is', (new Date(thisItem.starttime)).getMonth());
+          
+          // checks to see if date is in current month or not, adds to array if it is
+          if((new Date(thisItem.starttime)).getMonth() === (new Date(displayDate)).getMonth() && (new Date(thisItem.starttime)).getFullYear() === (new Date(displayDate)).getFullYear()){
+            thisViewsEvents.push(thisItem);
+          }
+        }
+        console.log('This Views Events', thisViewsEvents);
+      }
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+      //~~~~~~~~~~~~~~~ CREATE CALENDAR VIEW, POPULATE EACH DAY WITH LESSONS ~~~~~~~~~~~~~~~
       // get the first day of displayed month
       const firstOfMonth = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1);
       // get Sunday before the 1st of the month, (ex. for October 2022 => Sunday Sept 25)
@@ -60,27 +84,32 @@ function App() {
               break;
             } else{
               const date = new Date(SundayBeforeTheFirst);
-              datesInView.push({ date });
-
-            
+              for(let i = 0; i < thisViewsEvents.length; i++){
+                // if date in lessons array is the same as this day, push events to the dates object
+                if((new Date(thisViewsEvents[i].starttime)).getDate() === date.getDate()){
+                  console.log('in if statement, thisViewsEvent[i] is', thisViewsEvents[i]);
+                  datesInView.push({date: date, events: thisViewsEvents[i]});
+                }
+              }
+              // if day had no lessons, push it to datesInView with just date key
+              datesInView.push({ date, events: [{starttime: 'startTime', endtime: 'endTime'}] });
+              // increment the date by one before restarting loop
               SundayBeforeTheFirst.setDate(SundayBeforeTheFirst.getDate() + 1);
-
-
-
             }
       }
       console.log('dates in view  array', datesInView);
       // set array to allDates in state
       setAllDates(datesInView);
-      }
+  }
 
 
       
   
       
 
-  useEffect((()=>createCalendar()),[displayDate]);
-  useEffect(()=>()=>getEvents(),[]);
+  useEffect((()=>createCalendar()),[displayDate, allEvents]);
+  useEffect(()=>()=>getLessons(),[]);
+  useEffect(()=>console.log("all Dates are", allDates))
 
   return (
     <div className="App">
@@ -110,9 +139,18 @@ function App() {
                   {date.date.getDate()}
                 </div>
                 <div>
-                  <p>{allEvents.map((event)=>{
-                    
-                  })}</p>
+                  <p>{
+                    console.log('in p tag', date.events[0])
+                    // date.events.map((lessons)=>{
+                    //   return(
+                    //     <>
+                    //       {lessons.starttime}
+                    //       {lessons.endtime}
+                    //     </>
+                    //   )
+                    // })
+                  
+                  }</p>
                 </div>
               </div>
             )

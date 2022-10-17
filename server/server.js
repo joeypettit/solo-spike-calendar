@@ -10,7 +10,7 @@ app.use(express.static('build'));
 
 
 app.get('/calendar/', (req, res)=>{
-    let queryText = `SELECT * FROM "lessons-too"`
+    let queryText = `SELECT * FROM "lessons-six"`;
     pool.query(queryText)
     .then((response) =>{
         res.send(response.rows)
